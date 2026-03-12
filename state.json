@@ -1,0 +1,66 @@
+{
+  "domain": "angien",
+  "pitch": "AS4-Compliant UDB Gateway \u2014 digitizes product information for EU Union Database compliance. eDelivery protocol, no IT infrastructure required.",
+  "createdAt": "2026-02-26T15:31:00Z",
+  "icp": {
+    "org_filters": {
+      "organization_locations": [
+        "Germany",
+        "France",
+        "Netherlands",
+        "Belgium",
+        "Italy",
+        "Spain",
+        "Poland",
+        "Austria"
+      ],
+      "organization_num_employees_ranges": [
+        "11,20",
+        "21,50",
+        "51,100"
+      ],
+      "q_organization_keyword_tags": [
+        "import",
+        "export",
+        "trading",
+        "wholesale",
+        "distribution",
+        "logistics"
+      ]
+    },
+    "people_filters": {
+      "person_titles": [
+        "owner",
+        "founder",
+        "CEO",
+        "managing director",
+        "general manager",
+        "operations",
+        "logistics",
+        "compliance"
+      ],
+      "person_seniorities": [
+        "owner",
+        "founder",
+        "c_suite",
+        "director"
+      ]
+    }
+  },
+  "steps": {
+    "landing-page": {
+      "status": "completed",
+      "url": "https://angien.com"
+    },
+    "find-prospects": {
+      "status": "completed",
+      "candidates_found": 516,
+      "selected": 250,
+      "with_email": 249,
+      "credits_used": 250
+    },
+    "generate-copy": {
+      "status": "pending"
+    }
+  }
+}

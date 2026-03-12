@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="angien - Physics-based AI solution for catastrophe risk modeling in Switzerland">
+    <title>angien | Physics AI for Cat Risk</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #1a1a2e;
+            background: #ffffff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        nav {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid #eee;
+        }
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            text-decoration: none;
+        }
+        .logo span {
+            color: #4f46e5;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        nav a:hover {
+            color: #4f46e5;
+        }
+        .hero {
+            padding: 160px 0 100px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .hero h1 {
+            font-size: 3.2rem;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            color: #1a1a2e;
+        }
+        .hero h1 span {
+            color: #4f46e5;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin-bottom: 32px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #4f46e5;
+            color: #4f46e5;
+            margin-left: 16px;
+        }
+        .btn-outline:hover {
+            background: #4f46e5;
+            color: white;
+        }
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 8rem;
+            color: #4f46e5;
+            opacity: 0.9;
+        }
+        .features {
+            padding: 100px 0;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            color: #1a1a2e;
+        }
+        .section-title p {
+            color: #4a5568;
+            font-size: 1.1rem;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+        .feature-card {
+            padding: 40px;
+            background: #f8fafc;
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .feature-card i {
+            font-size: 2.5rem;
+            color: #4f46e5;
+            margin-bottom: 24px;
+        }
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            color: #1a1a2e;
+        }
+        .feature-card p {
+            color: #4a5568;
+        }
+        .cta {
+            padding: 100px 0;
+            background: #1a1a2e;
+            color: white;
+            text-align: center;
+        }
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+        }
+        .cta p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .contact {
+            padding: 100px 0;
+            background: #f8fafc;
+        }
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 48px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #1a1a2e;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .error-message {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 6px;
+            display: none;
+        }
+        .form-group.error input,
+        .form-group.error textarea {
+            border-color: #dc2626;
+        }
+        .form-group.error .error-message {
+            display: block;
+        }
+        footer {
+            padding: 40px 0;
+            background: #1a1a2e;
+            color: white;
+        }
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        footer a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            margin-left: 24px;
+            transition: color 0.2s;
+        }
+        footer a:hover {
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-visual {
+                display: none;
+            }
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            nav ul {
+                display: none;
+            }
+            footer .container {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">ang<span>i</span>en</a>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div>
+                    <h1>Physics-Powered <span>AI</span> for Catastrophe Risk</h1>
+                    <p>Advanced modeling solutions for the Swiss insurance market. Combining first-principles physics with cutting-edge artificial intelligence to deliver unprecedented accuracy in natural catastrophe risk assessment.</p>
+                    <a href="#contact" class="btn">Get Started</a>
+                    <a href="#features" class="btn btn-outline">Learn More</a>
+                </div>
+                <div class="hero-visual">
+                    <i class="fas fa-brain"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose angien</h2>
+                <p>Built specifically for the Swiss market with deep domain expertise</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-atom"></i>
+                    <h3>Physics-Based Models</h3>
+                    <p>Our models are grounded in fundamental physics principles, ensuring accuracy that purely statistical approaches cannot match.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-mountain"></i>
+                    <h3>Swiss Terrain Expertise</h3>
+                    <p>Purpose-built for Switzerland's unique topography, including alpine hazards, flood plains, and seismic zones.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Real-Time Analytics</h3>
+                    <p>Continuous monitoring and instant risk recalculation as conditions change, powered by advanced AI algorithms.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Regulatory Compliance</h3>
+                    <p>Fully aligned with FINMA requirements and Swiss Solvency Test standards for catastrophe risk modeling.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-plug"></i>
+                    <h3>Seamless Integration</h3>
+                    <p>API-first architecture that integrates with your existing systems and workflows without disruption.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Expert Support</h3>
+                    <p>Dedicated team of actuaries and physicists to help you interpret results and optimize your risk strategy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Transform Your Risk Models?</h2>
+            <p>Join leading Swiss insurers who trust angien for their catastrophe risk assessment needs.</p>
+            <a href="#contact" class="btn">Schedule a Demo</a>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Get in Touch</h2>
+                <p>Tell us about your needs and we'll show you what angien can do</p>
+            </div>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                    <span class="error-message">Please enter your name</span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Work Email</label>
+                    <input type="email" id="email" name="email" required>
+                    <span class="error-message">Please enter a valid email address</span>
+                </div>
+                <div class="form-group">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company" required>
+                    <span class="error-message">Please enter your company name</span>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                    <span class="error-message">Please enter a message</span>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <span>angien</span>
+            <div>
+                <a href="/privacy-policy">Privacy Policy</a>
+                <a href="/terms-of-use">Terms of Use</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+            const fields = ['name', 'email', 'company', 'message'];
+            
+            fields.forEach(function(field) {
+                const input = document.getElementById(field);
+                const formGroup = input.parentElement;
+                
+                if (!input.value.trim()) {
+                    formGroup.classList.add('error');
+                    isValid = false;
+                } else if (field === 'email' && !isValidEmail(input.value)) {
+                    formGroup.classList.add('error');
+                    isValid = false;
+                } else {
+                    formGroup.classList.remove('error');
+                }
+            });
+            
+            if (isValid) {
+                alert('Thank you for your message. We will be in touch shortly.');
+                this.reset();
+            }
+        });
+        
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+        
+        document.querySelectorAll('input, textarea').forEach(function(input) {
+            input.addEventListener('input', function() {
+                this.parentElement.classList.remove('error');
+            });
+        });
+    </script>
+</body>
+</html>
