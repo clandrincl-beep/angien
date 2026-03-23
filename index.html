@@ -81,6 +81,22 @@
             box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
         }
 
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
         /* Hero Section */
         .hero {
             padding: 160px 0 100px;
@@ -432,6 +448,10 @@
                 padding: 10px 20px;
                 font-size: 0.9rem;
             }
+
+            .nav-links {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -439,14 +459,19 @@
     <nav>
         <div class="container">
             <a href="/" class="logo">ang<span>i</span>en</a>
-            <a href="#contact" class="nav-cta">Get Early Access</a>
+            <div class="nav-links">
+                <a href="#problem">Problem</a>
+                <a href="#features">Solution</a>
+                <a href="#results">Results</a>
+            </div>
+            <a href="#contact" class="nav-cta">Book a Demo</a>
         </div>
     </nav>
 
     <section class="hero">
         <div class="container">
             <h1>Stop practicing on <span>real prospects</span></h1>
-            <p class="hero-subtitle">Pilots train in simulators. Surgeons practice on cadavers. Your sales reps should practice on AI before money is on the line.</p>
+            <p class="hero-subtitle">The first time your rep hears "we don't have budget for this" shouldn't be when real revenue is on the line. Give them reps before the real game.</p>
             <a href="#contact" class="hero-cta">
                 <i class="fas fa-play"></i>
                 Start Training Today
@@ -454,7 +479,7 @@
         </div>
     </section>
 
-    <section class="problem">
+    <section class="problem" id="problem">
         <div class="container">
             <div class="section-label">The Problem</div>
             <h2 class="section-title">Every other high-stakes profession has a training environment</h2>
@@ -484,7 +509,7 @@
         </div>
     </section>
 
-    <section class="features">
+    <section class="features" id="features">
         <div class="container">
             <div class="features-header">
                 <div class="section-label">The Solution</div>
@@ -523,7 +548,7 @@
         </div>
     </section>
 
-    <section class="social-proof">
+    <section class="social-proof" id="results">
         <div class="container">
             <div class="section-label">Early Results</div>
             <h2 class="section-title">Reps who train, close more</h2>
