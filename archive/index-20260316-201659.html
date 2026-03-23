@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="angien - AI-powered quote generator for home service contractors. Generate accurate quotes in under 2 minutes. HVAC, plumbing, electrical, roofing.">
+    <title>angien | AI Quote Generator for Home Service Contractors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --accent: #0ea5e9;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --gray-light: #94a3b8;
+            --light: #f1f5f9;
+            --white: #ffffff;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--white);
+        }
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Navigation */
+        nav {
+            padding: 16px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .nav-cta {
+            background: var(--primary);
+            color: var(--white);
+            padding: 10px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        .nav-cta:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 140px 0 80px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+        }
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        .hero h1 span {
+            color: var(--primary);
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 32px;
+            line-height: 1.8;
+        }
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary);
+            color: var(--white);
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+        .hero-cta:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        .stat {
+            text-align: left;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        .hero-visual {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .quote-preview {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .quote-preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .quote-preview-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .quote-preview-badge {
+            background: var(--success);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .quote-line-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-size: 0.9rem;
+        }
+        .quote-line-item:last-child {
+            border-bottom: none;
+            font-weight: 600;
+        }
+        .quote-time {
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+        .quote-time i {
+            color: var(--success);
+            margin-right: 6px;
+        }
+
+        /* Problem Section */
+        .problem {
+            padding: 100px 0;
+            background: var(--white);
+        }
+        .section-label {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        .problem h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        .problem > .container > p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin-bottom: 50px;
+        }
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        .problem-card {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 32px;
+            border-left: 4px solid var(--warning);
+        }
+        .problem-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .problem-card h3 i {
+            color: var(--warning);
+        }
+        .problem-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Solution Section */
+        .solution {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            color: var(--white);
+        }
+        .solution .section-label {
+            color: var(--accent);
+        }
+        .solution h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+        .solution > .container > p {
+            font-size: 1.1rem;
+            color: var(--gray-light);
+            max-width: 600px;
+            margin-bottom: 50px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .feature-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.2s, background 0.2s;
+        }
+        .feature-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255,255,255,0.08);
+        }
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .feature-icon i {
+            font-size: 1.25rem;
+            color: var(--white);
+        }
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .feature-card p {
+            color: var(--gray-light);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 100px 0;
+            background: var(--white);
+        }
+        .how-it-works h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark);
+            text-align: center;
+        }
+        .how-it-works > .container > p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 60px;
+            text-align: center;
+        }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        .step {
+            text-align: center;
+            position: relative;
+        }
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 24px;
+        }
+        .step h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+        .step p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Integrations */
+        .integrations {
+            padding: 80px 0;
+            background: var(--light);
+        }
+        .integrations h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--dark);
+        }
+        .integration-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        .integration-logo {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .integration-logo i {
+            font-size: 1.5rem;
+        }
+
+        /* Testimonial */
+        .testimonial {
+            padding: 100px 0;
+            background: var(--white);
+        }
+        .testimonial-card {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .testimonial-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--dark);
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+        .testimonial-avatar {
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+        .testimonial-info {
+            text-align: left;
+        }
+        .testimonial-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .testimonial-role {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            text-align: center;
+        }
+        .cta h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+        .cta p {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.85);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        .cta-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .form-group input.error {
+            border-color: #ef4444;
+        }
+        .error-message {
+            color: #ef4444;
+            font-size: 0.8rem;
+            margin-top: 6px;
+            display: none;
+        }
+        .form-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .form-submit:hover {
+            background: var(--primary-dark);
+        }
+        .form-note {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 16px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0 30px;
+            background: var(--dark);
+            color: var(--gray-light);
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 30px;
+        }
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+        .footer-links {
+            display: flex;
+            gap: 30px;
+        }
+        .footer-links a {
+            color: var(--gray-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: var(--white);
+        }
+        .footer-bottom {
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero h1 {
+                font-size: 2.25rem;
+            }
+            .hero-stats {
+                justify-content: center;
+            }
+            .hero-visual {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            .problem-grid {
+                grid-template-columns: 1fr;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.85rem;
+            }
+            .hero-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .nav-cta {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">angien</a>
+            <a href="#contact" class="nav-cta">Get Started Free</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Your techs spend <span>8 hours a week</span> on quotes. Cut it to 30 minutes.</h1>
+                <p>AI-powered quoting for HVAC, plumbing, electrical, and roofing contractors. Generate accurate, professional quotes in under 2 minutes from the field.</p>
+                <a href="#contact" class="hero-cta">
+                    <i class="fas fa-bolt"></i>
+                    Start Free Trial
+                </a>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">2 min</div>
+                        <div class="stat-label">Average quote time</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">34%</div>
+                        <div class="stat-label">Higher close rate</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Contractors trust us</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="quote-preview">
+                    <div class="quote-preview-header">
+                        <span class="quote-preview-title">AC Replacement Quote</span>
+                        <span class="quote-preview-badge">Ready to send</span>
+                    </div>
+                    <div class="quote-line-item">
+                        <span>Carrier 24ACC636A003 (3-ton)</span>
+                        <span>$4,200</span>
+                    </div>
+                    <div class="quote-line-item">
+                        <span>Installation labor (6 hrs)</span>
+                        <span>$1,800</span>
+                    </div>
+                    <div class="quote-line-item">
+                        <span>Ductwork modification</span>
+                        <span>$650</span>
+                    </div>
+                    <div class="quote-line-item">
+                        <span>Permit and inspection</span>
+                        <span>$350</span>
+                    </div>
+                    <div class="quote-line-item">
+                        <span>Total</span>
+                        <span>$7,000</span>
+                    </div>
+                </div>
+                <p class="quote-time"><i class="fas fa-clock"></i> Generated in 1 minute 47 seconds</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="problem">
+        <div class="container">
+            <div class="section-label">The Problem</div>
+            <h2>Slow quotes are killing your close rate</h2>
+            <p>Every hour your tech spends on paperwork is an hour they are not closing the next job.</p>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <h3><i class="fas fa-hourglass-half"></i> Time drain</h3>
+                    <p>Your best techs spend 1-2 hours per quote, manually looking up parts, calculating labor, and formatting proposals.</p>
+                </div>
+                <div class="problem-card">
+                    <h3><i class="fas fa-random"></i> Inconsistent pricing</h3>
+                    <p>Different techs quote different prices for the same job. No standard price book means margin leakage.</p>
+                </div>
+                <div class="problem-card">
+                    <h3><i class="fas fa-user-clock"></i> Lost to faster competitors</h3>
+                    <p>The contractor who quotes first usually wins. While you are writing up the quote, your competitor already sent theirs.</p>
+                </div>
+                <div class="problem-card">
+                    <h3><i class="fas fa-eye-slash"></i> No pipeline visibility</h3>
+                    <p>Quotes live in email threads and paper folders. You have no idea which quotes are pending or what your win rate actually is.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="solution">
+        <div class="container">
+            <div class="section-label">The Solution</div>
+            <h2>Quote faster. Close more. Track everything.</h2>
+            <p>angien uses AI to generate accurate quotes from job details your techs already capture on-site.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3>AI-Generated Quotes</h3>
+                    <p>Describe the job in plain English. Our AI pulls from your price book and generates a complete, itemized quote in under 2 minutes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Built-In Price Book</h3>
+                    <p>Centralized pricing for parts, labor rates, and common job packages. Every tech quotes the same way, protecting your margins.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile-First Design</h3>
+                    <p>Built for the field. Your techs can create and send quotes from their phone while still at the job site.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h3>CRM Integrations</h3>
+                    <p>Connects with ServiceTitan, Housecall Pro, Jobber, and more. Quotes sync automatically to your existing workflow.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Pipeline Tracking</h3>
+                    <p>See every open quote, follow-up dates, and conversion rates. Know exactly where your revenue is coming from.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-signature"></i>
+                    </div>
+                    <h3>E-Signature Built In</h3>
+                    <p>Customers approve quotes with one tap. No printing, scanning, or chasing signatures.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-label">How It Works</div>
+            <h2>From job site to signed quote in minutes</h2>
+            <p>No training required. If your techs can text, they can use angien.</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Describe the job</h3>
+                    <p>Your tech enters job details: equipment model, scope of work, any special conditions. Voice input supported.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>AI generates the quote</h3>
+                    <p>angien pulls pricing from your price book, calculates labor, adds relevant options, and formats a professional proposal.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Send and track</h3>
+                    <p>One tap to email or text the quote. Customer signs digitally. You see real-time status in your dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="integrations">
+        <div class="container">
+            <h2>Works with the tools you already use</h2>
+            <div class="integration-logos">
+                <div class="integration-logo"><i class="fas fa-cog"></i> ServiceTitan</div>
+                <div class="integration-logo"><i class="fas fa-home"></i> Housecall Pro</div>
+                <div class="integration-logo"><i class="fas fa-briefcase"></i> Jobber</div>
+                <div class="integration-logo"><i class="fas fa-cloud"></i> QuickBooks</div>
+                <div class="integration-logo"><i class="fas fa-database"></i> Salesforce</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonial">
+        <div class="container">
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"We went from 90 minutes per quote to under 5 minutes. Last month we closed 40% more jobs because we are always the first to get the quote in the customer's hands."</div>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">MR</div>
+                    <div class="testimonial-info">
+                        <div class="testimonial-name">Mike Rodriguez</div>
+                        <div class="testimonial-role">Owner, ProComfort HVAC</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="contact">
+        <div class="container">
+            <h2>Start closing more jobs this week</h2>
+            <p>14-day free trial. No credit card required. Set up in 15 minutes.</p>
+            <div class="cta-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="John Smith" required>
+                        <div class="error-message" id="nameError">Please enter your name</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Work Email</label>
+                        <input type="email" id="email" name="email" placeholder="john@yourcompany.com" required>
+                        <div class="error-message" id="emailError">Please enter a valid email</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company Name</label>
+                        <input type="text" id="company" name="company" placeholder="ProComfort HVAC" required>
+                        <div class="error-message" id="companyError">Please enter your company name</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required>
+                        <div class="error-message" id="phoneError">Please enter a valid phone number</div>
+                    </div>
+                    <button type="submit" class="form-submit">Start Free Trial</button>
+                    <p class="form-note">By signing up, you agree to our <a href="/terms-of-use">Terms</a> and <a href="/privacy-policy">Privacy Policy</a>.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">angien</div>
+                <div class="footer-links">
+                    <a href="/privacy-policy">Privacy Policy</a>
+                    <a href="/terms-of-use">Terms of Use</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright 2026 angien. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+            
+            // Reset errors
+            document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
+            
+            // Validate name
+            const name = document.getElementById('name');
+            if (!name.value.trim()) {
+                document.getElementById('nameError').style.display = 'block';
+                name.classList.add('error');
+                isValid = false;
+            }
+            
+            // Validate email
+            const email = document.getElementById('email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value)) {
+                document.getElementById('emailError').style.display = 'block';
+                email.classList.add('error');
+                isValid = false;
+            }
+            
+            // Validate company
+            const company = document.getElementById('company');
+            if (!company.value.trim()) {
+                document.getElementById('companyError').style.display = 'block';
+                company.classList.add('error');
+                isValid = false;
+            }
+            
+            // Validate phone
+            const phone = document.getElementById('phone');
+            const phoneRegex = /^[\d\s\-\(\)\+]{10,}$/;
+            if (!phoneRegex.test(phone.value)) {
+                document.getElementById('phoneError').style.display = 'block';
+                phone.classList.add('error');
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // Form is valid - would submit to backend
+                alert('Thank you! We will be in touch within 24 hours to set up your free trial.');
+                this.reset();
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
